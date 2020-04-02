@@ -1,4 +1,3 @@
-// v2: add Gesture detector
 import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
 
