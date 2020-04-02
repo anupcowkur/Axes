@@ -31,6 +31,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Animation _xAnim;
   Animation _yAnim;
   Animation _zAnim;
+  double _scale = 1.0;
   double _rotateX = 1.0;
   double _rotateXSlider = 1.0;
   double _rotateY = 1.0;
@@ -68,6 +69,25 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+                      child: Text("Scale"),
+                    )),
+                Slider.adaptive(
+                  value: _scale,
+                  onChanged: (double newValue) {
+                    setState(() {
+                      _scale = newValue;
+                    });
+                  },
+                  min: 0.1,
+                  max: 1.0,
+                  divisions: 99,
+                  label: "Scale",
+                ),
+                SizedBox(height: 20),
                 Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
@@ -171,6 +191,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     // Transform widget
                     transform: Matrix4.identity()
                       ..setEntry(3, 2, 0.001) // perspective
+                      ..scale(_scale)
                       ..rotateX(0.01 * _rotateX) // changed
                       ..rotateY(-0.01 * _rotateY) // changed
                       ..rotateZ(-0.01 * _rotateZ), // changed
