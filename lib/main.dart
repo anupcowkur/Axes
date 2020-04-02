@@ -27,12 +27,16 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   AnimationController _xController;
   AnimationController _yController;
+  AnimationController _zController;
   Animation _xAnim;
   Animation _yAnim;
+  Animation _zAnim;
   double _rotateX = 1.0;
   double _rotateXSlider = 1.0;
   double _rotateY = 1.0;
   double _rotateYSlider = 1.0;
+  double _rotateZ = 1.0;
+  double _rotateZSlider = 1.0;
 
   @override
   void initState() {
@@ -42,6 +46,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         vsync: this, duration: Duration(milliseconds: 2000));
 
     _yController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 2000));
+
+    _zController = AnimationController(
         vsync: this, duration: Duration(milliseconds: 2000));
   }
 
@@ -127,12 +134,46 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   label: "Rotate Y",
                 ),
                 SizedBox(height: 20),
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+                      child: Text("Rotate Z"),
+                    )),
+                Slider.adaptive(
+                  value: _rotateZSlider,
+                  onChanged: (double newValue) {
+                    setState(() {
+                      _rotateZSlider = newValue;
+                      _rotateZ = newValue;
+                      _zController.stop();
+                    });
+                  },
+                  onChangeEnd: (double newValue) {
+                    _zAnim = Tween<double>(begin: newValue - 20, end: newValue)
+                        .animate(CurvedAnimation(
+                            parent: _zController, curve: Curves.elasticOut))
+                          ..addListener(() {
+                            setState(() {
+                              _rotateZ = _zAnim.value;
+                            });
+                          });
+                    _zController.reset();
+                    _zController.forward();
+                  },
+                  min: 1,
+                  max: 180,
+                  divisions: 180,
+                  label: "Rotate Z",
+                ),
+                SizedBox(height: 20),
                 Transform(
                     // Transform widget
                     transform: Matrix4.identity()
                       ..setEntry(3, 2, 0.001) // perspective
                       ..rotateX(0.01 * _rotateX) // changed
-                      ..rotateY(-0.01 * _rotateY), // changed
+                      ..rotateY(-0.01 * _rotateY) // changed
+                      ..rotateZ(-0.01 * _rotateZ), // changed
                     alignment: FractionalOffset.center,
                     child: _buildCard(context))
               ],
