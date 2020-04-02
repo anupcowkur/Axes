@@ -56,72 +56,87 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           title: Text('Axes'), // changed
         ),
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Slider.adaptive(
-                value: _rotateXSlider,
-                onChanged: (double newValue) {
-                  setState(() {
-                    _rotateXSlider = newValue;
-                    _rotateX = newValue;
-                    _xController.stop();
-                  });
-                },
-                onChangeEnd: (double newValue) {
-                  _xAnim = Tween<double>(begin: newValue - 20, end: newValue)
-                      .animate(CurvedAnimation(
-                          parent: _xController, curve: Curves.elasticOut))
-                        ..addListener(() {
-                          setState(() {
-                            _rotateX = _xAnim.value;
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+                      child: Text("Rotate X"),
+                    )),
+                Slider.adaptive(
+                  value: _rotateXSlider,
+                  onChanged: (double newValue) {
+                    setState(() {
+                      _rotateXSlider = newValue;
+                      _rotateX = newValue;
+                      _xController.stop();
+                    });
+                  },
+                  onChangeEnd: (double newValue) {
+                    _xAnim = Tween<double>(begin: newValue - 20, end: newValue)
+                        .animate(CurvedAnimation(
+                            parent: _xController, curve: Curves.elasticOut))
+                          ..addListener(() {
+                            setState(() {
+                              _rotateX = _xAnim.value;
+                            });
                           });
-                        });
-                  _xController.reset();
-                  _xController.forward();
-                },
-                min: 1,
-                max: 180,
-                divisions: 180,
-                label: "Rotate X",
-              ),
-              SizedBox(height: 20),
-              Slider.adaptive(
-                value: _rotateYSlider,
-                onChanged: (double newValue) {
-                  setState(() {
-                    _rotateYSlider = newValue;
-                    _rotateY = newValue;
-                    _yController.stop();
-                  });
-                },
-                onChangeEnd: (double newValue) {
-                  _yAnim = Tween<double>(begin: newValue - 20, end: newValue)
-                      .animate(CurvedAnimation(
-                          parent: _yController, curve: Curves.elasticOut))
-                        ..addListener(() {
-                          setState(() {
-                            _rotateY = _yAnim.value;
+                    _xController.reset();
+                    _xController.forward();
+                  },
+                  min: 1,
+                  max: 180,
+                  divisions: 180,
+                  label: "Rotate X",
+                ),
+                SizedBox(height: 20),
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+                      child: Text("Rotate Y"),
+                    )),
+                Slider.adaptive(
+                  value: _rotateYSlider,
+                  onChanged: (double newValue) {
+                    setState(() {
+                      _rotateYSlider = newValue;
+                      _rotateY = newValue;
+                      _yController.stop();
+                    });
+                  },
+                  onChangeEnd: (double newValue) {
+                    _yAnim = Tween<double>(begin: newValue - 20, end: newValue)
+                        .animate(CurvedAnimation(
+                            parent: _yController, curve: Curves.elasticOut))
+                          ..addListener(() {
+                            setState(() {
+                              _rotateY = _yAnim.value;
+                            });
                           });
-                        });
-                  _yController.reset();
-                  _yController.forward();
-                },
-                min: 1,
-                max: 180,
-                divisions: 180,
-                label: "Rotate Y",
-              ),
-              SizedBox(height: 20),
-              Transform(
-                  // Transform widget
-                  transform: Matrix4.identity()
-                    ..setEntry(3, 2, 0.001) // perspective
-                    ..rotateX(0.01 * _rotateX) // changed
-                    ..rotateY(-0.01 * _rotateY), // changed
-                  alignment: FractionalOffset.center,
-                  child: _buildCard(context))
-            ],
+                    _yController.reset();
+                    _yController.forward();
+                  },
+                  min: 1,
+                  max: 180,
+                  divisions: 180,
+                  label: "Rotate Y",
+                ),
+                SizedBox(height: 20),
+                Transform(
+                    // Transform widget
+                    transform: Matrix4.identity()
+                      ..setEntry(3, 2, 0.001) // perspective
+                      ..rotateX(0.01 * _rotateX) // changed
+                      ..rotateY(-0.01 * _rotateY), // changed
+                    alignment: FractionalOffset.center,
+                    child: _buildCard(context))
+              ],
+            ),
           ),
         ));
   }
