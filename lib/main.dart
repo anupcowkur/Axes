@@ -31,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Animation _xAnim;
   Animation _yAnim;
   Animation _zAnim;
-  double _scale = 1.0;
+  double _scale = 0.7;
   double _rotateX = 1.0;
   double _rotateXSlider = 1.0;
   double _rotateY = 1.0;
