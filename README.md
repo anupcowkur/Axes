@@ -1,5 +1,5 @@
 # Axes
 
-Flutter project to demo scaling and rotation transforms.
+A demo showcasing scaling and rotation transforms in Flutter
 
 ![Demo](/gif/axes.gif) 
